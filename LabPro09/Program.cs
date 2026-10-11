@@ -33,104 +33,166 @@ using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Linq.Expressions;
 
-System.Console.WriteLine("Шаг 5");
-void ChangeFirst(int[] array) {
-    array[0] = 100;
+// System.Console.WriteLine("Шаг 5");
+// void ChangeFirst(int[] array) {
+//     array[0] = 100;
+// }
+
+// int[] squares = [1, 4, 9, 16, 25];
+
+// ChangeFirst(squares);
+// System.Console.WriteLine($"Массив: {string.Join(", ", squares)}");
+
+// System.Console.WriteLine();
+// System.Console.WriteLine("Шаг 6");
+// // Массив - это ссылочный тип, поэтому при передачи параметра копируется ссылка на массив, а не его копия. Из-за этого изменение элементов в методе меняет изначальный массив
+// void Multiple(int[] array) {
+//     for (int i = 0; i < array.Length; i++) {
+//         array[i] *= 2;
+//     }
+// }
+
+// int[] days = [1, 2, 3, 4, 5, 6, 7];
+// System.Console.WriteLine($"Массив: {string.Join(", ", days)}");
+// Multiple(days);
+// System.Console.WriteLine($"Массив, умноженный на 2: {string.Join(", ", days)}");
+
+// System.Console.WriteLine();
+// System.Console.WriteLine("Шаг 7");
+// void Stats(int[] array, ref int sum, ref double average, ref int max, ref int min) {
+//     foreach (int element in array) {
+//         sum += element;
+
+//         if (max < element) max = element;
+//         if (min > element) min = element;
+//     }
+
+//     average = (int)((double)sum / array.Length * 100) / 100.0;
+// }
+
+// int[] data = [7, -3, 12, 0, 5, 9, -8];
+// int sum1 = 0;
+// int max1 = data[0];
+// int min1 = data[0];
+// double average1 = 0;
+
+// Stats(data, ref sum1, ref average1, ref max1, ref min1);
+
+// System.Console.WriteLine($"Сумма: {sum1}");
+// System.Console.WriteLine($"Среднее значение: {average1}");
+// System.Console.WriteLine($"Максимальный элемент: {max1}");
+// System.Console.WriteLine($"Минимальный элемент: {min1}");
+
+// System.Console.WriteLine();
+// int[] negative = [-5, -2, -9];
+// int sum2 = 0;
+// double average2 = 0;
+// // Если max начать с 0, то ни одно значение из массива negative не будет больше, чем он. Программа будет выводит ложную информацию (max = 0)
+// int max2 = negative[0];
+// int min2 = negative[0];
+
+// Stats(negative, ref sum2, ref average2, ref max2, ref min2);
+
+// System.Console.WriteLine($"Сумма: {sum2}");
+// System.Console.WriteLine($"Среднее значение: {average2}");
+// System.Console.WriteLine($"Максимальный элемент: {max2}");
+// System.Console.WriteLine($"Минимальный элемент: {min2}");
+
+// System.Console.WriteLine();
+// System.Console.WriteLine("Шаг 9");
+
+// bool isValidSize;
+// int size;
+// do {
+//     Console.Write("Размер массива: ");
+//     isValidSize = int.TryParse(Console.ReadLine(), out size);
+
+//     if (!isValidSize || size < 0) {
+//         System.Console.WriteLine("Неверный ввод. Попробуйте снова");
+//         System.Console.WriteLine();
+//     }
+// } while (!isValidSize || size < 0);
+
+// int[] array = new int[size];
+
+// System.Console.WriteLine();
+// for (int i = 0; i < size; i++) {
+//     bool isValidElement;
+//     int element;
+//     do {
+//         Console.Write($"Элемент {i + 1}: ");
+//         isValidElement = int.TryParse(Console.ReadLine(), out element);
+
+//         if (!isValidElement) {
+//             System.Console.WriteLine("Неверный ввод. Попробуйте снова");
+//             System.Console.WriteLine();
+//         }
+//     } while (!isValidElement);
+
+//     array[i] = element;
+// }
+
+// System.Console.WriteLine();
+// System.Console.WriteLine($"Массив: {string.Join(", ", array)}");
+
+System.Console.WriteLine("Результаты тренировок");
+void isValid(string message, out int num) {
+    bool isValid;
+    do {
+        Console.Write(message);
+        isValid = int.TryParse(Console.ReadLine(), out num);
+
+        if (!isValid || num < 0) {
+            System.Console.WriteLine("Неверный ввод. Попробуйте снова");
+            System.Console.WriteLine();
+        }
+    } while (!isValid || num < 0);
 }
 
-int[] squares = [1, 4, 9, 16, 25];
+void Statistics(in int[] array, int limit, out int max, out int min, out int notBelowLimit, out double average) {
+    int sum = 0;
+    notBelowLimit = 0;
+    max = array[0];
+    min = array[0];
 
-ChangeFirst(squares);
-System.Console.WriteLine($"Массив: {string.Join(", ", squares)}");
-
-System.Console.WriteLine();
-System.Console.WriteLine("Шаг 6");
-// Массив - это ссылочный тип, поэтому при передачи параметра копируется ссылка на массив, а не его копия. Из-за этого изменение элементов в методе меняет изначальный массив
-void Multiple(int[] array) {
-    for (int i = 0; i < array.Length; i++) {
-        array[i] *= 2;
-    }
-}
-
-int[] days = [1, 2, 3, 4, 5, 6, 7];
-System.Console.WriteLine($"Массив: {string.Join(", ", days)}");
-Multiple(days);
-System.Console.WriteLine($"Массив, умноженный на 2: {string.Join(", ", days)}");
-
-System.Console.WriteLine();
-System.Console.WriteLine("Шаг 7");
-void Stats(int[] array, ref int sum, ref double average, ref int max, ref int min) {
     foreach (int element in array) {
         sum += element;
 
         if (max < element) max = element;
         if (min > element) min = element;
+        if (element >= limit) notBelowLimit += 1;
     }
-
-    average = (int)((double)sum / array.Length * 100) / 100.0;
+    average = Round((double) sum / array.Length);
 }
 
-int[] data = [7, -3, 12, 0, 5, 9, -8];
-int sum1 = 0;
-int max1 = data[0];
-int min1 = data[0];
-double average1 = 0;
-
-Stats(data, ref sum1, ref average1, ref max1, ref min1);
-
-System.Console.WriteLine($"Сумма: {sum1}");
-System.Console.WriteLine($"Среднее значение: {average1}");
-System.Console.WriteLine($"Максимальный элемент: {max1}");
-System.Console.WriteLine($"Минимальный элемент: {min1}");
-
-System.Console.WriteLine();
-int[] negative = [-5, -2, -9];
-int sum2 = 0;
-double average2 = 0;
-// Если max начать с 0, то ни одно значение из массива negative не будет больше, чем он. Программа будет выводит ложную информацию (max = 0)
-int max2 = negative[0];
-int min2 = negative[0];
-
-Stats(negative, ref sum2, ref average2, ref max2, ref min2);
-
-System.Console.WriteLine($"Сумма: {sum2}");
-System.Console.WriteLine($"Среднее значение: {average2}");
-System.Console.WriteLine($"Максимальный элемент: {max2}");
-System.Console.WriteLine($"Минимальный элемент: {min2}");
-
-System.Console.WriteLine();
-System.Console.WriteLine("Шаг 9");
-
-bool isValidSize;
-int size;
-do {
-    Console.Write("Размер массива: ");
-    isValidSize = int.TryParse(Console.ReadLine(), out size);
-
-    if (!isValidSize || size < 0) {
-        System.Console.WriteLine("Неверный ввод. Попробуйте снова");
-        System.Console.WriteLine();
-    }
-} while (!isValidSize || size < 0);
-
-int[] array = new int[size];
-
-System.Console.WriteLine();
-for (int i = 0; i < size; i++) {
-    bool isValidElement;
-    int element;
-    do {
-        Console.Write($"Элемент {i + 1}: ");
-        isValidElement = int.TryParse(Console.ReadLine(), out element);
-
-        if (!isValidElement) {
-            System.Console.WriteLine("Неверный ввод. Попробуйте снова");
-            System.Console.WriteLine();
-        }
-    } while (!isValidElement);
-
-    array[i] = element;
+double Round(double num) {
+    num *= 100;
+    return (int)num / 100.0;
 }
 
 System.Console.WriteLine();
-System.Console.WriteLine($"Массив: {string.Join(", ", array)}");
+isValid("Сколько результатов? ", out int count);
+
+int[] results = new int[count];
+
+for (int i = 0; i < count; i++) {
+    isValid($"Результат {i + 1}: ", out int result);
+
+    results[i] = result;
+}
+
+isValid("Порог: ", out int limit);
+
+System.Console.WriteLine();
+System.Console.WriteLine("Результаты:");
+for (int i = 0; i < count; i++) {
+    System.Console.WriteLine($"{i}: {results[i]}");
+}
+
+Statistics(in results, limit, out int max, out int min, out int notBelowLimit, out double average);
+
+System.Console.WriteLine();
+System.Console.WriteLine($"Среднее: {average}");
+System.Console.WriteLine($"Лучший результат: {max}");
+System.Console.WriteLine($"Худший результат: {min}");
+System.Console.WriteLine($"Результатов не ниже {limit}: {notBelowLimit}");
